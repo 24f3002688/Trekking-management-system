@@ -1,0 +1,40 @@
+body {
+    background-color: #f4f1ea;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    background-color: #2f4f3f !important;
+}
+
+.hero {
+    background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+.btn-primary {
+    background-color: #2f4f3f;
+    border-color: #2f4f3f;
+}
+
+.btn-primary:hover {
+    background-color: #24392f;
+    border-color: #24392f;
+}
+
+.trek-card img {
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
