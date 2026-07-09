@@ -1,0 +1,48 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block admin_content %}
+<h2 class="mb-4">Users</h2>
+
+<form method="GET" action="{{ url_for('admin.manage_users') }}" class="mb-4">
+    <div class="input-group">
+        <input type="text" class="form-control" name="search" placeholder="Search users by name..." value="{{ request.args.get('search', '') }}">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table table-hover bg-white shadow-sm">
+    <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Contact</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.contact or '-' }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if user.status == 'active' else 'danger' }}">
+                    {{ user.status }}
+                </span>
+            </td>
+            <td>
+                {% if user.status == 'blacklisted' %}
+                <form method="POST" action="{{ url_for('admin.reinstate_user', user_id=user.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-success">Reinstate</button>
+                </form>
+                {% else %}
+                <form method="POST" action="{{ url_for('admin.blacklist_user', user_id=user.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Blacklist this user?')">Blacklist</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted">No users found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

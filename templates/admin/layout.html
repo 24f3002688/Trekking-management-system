@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2 mb-4">
+        <div class="sidebar shadow-sm">
+            <a href="{{ url_for('admin.dashboard') }}" class="sidebar-link {{ 'active' if active_page == 'dashboard' }}">🏕️ Dashboard</a>
+            <a href="{{ url_for('admin.manage_treks') }}" class="sidebar-link {{ 'active' if active_page == 'treks' }}">🥾 Treks</a>
+            <a href="{{ url_for('admin.manage_staff') }}" class="sidebar-link {{ 'active' if active_page == 'staff' }}">🧑‍✈️ Staff</a>
+            <a href="{{ url_for('admin.manage_users') }}" class="sidebar-link {{ 'active' if active_page == 'users' }}">🚶 Users</a>
+            <a href="{{ url_for('admin.all_bookings') }}" class="sidebar-link {{ 'active' if active_page == 'bookings' }}">📖 Bookings</a>
+            <a href="{{ url_for('admin.search') }}" class="sidebar-link {{ 'active' if active_page == 'search' }}">🔍 Search</a>
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link text-danger">🚪 Logout</a>
+        </div>
+    </div>
+    <div class="col-md-10">
+        {% block admin_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

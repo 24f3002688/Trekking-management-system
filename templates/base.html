@@ -7,8 +7,11 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
     <nav class="navbar navbar-dark">
         <div class="container">
+            <label for="sidebar-toggle" class="hamburger-btn">☰</label>
             <a class="navbar-brand fw-bold" href="/">🏔️ Trekking Management</a>
         </div>
     </nav>

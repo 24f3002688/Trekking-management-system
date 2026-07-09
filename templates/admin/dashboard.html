@@ -1,10 +1,17 @@
-{% extends "base.html" %}
+{% extends "admin/layout.html" %}
 
 {% block title %}Admin Dashboard{% endblock %}
 
-{% block content %}
+{% block admin_content %}
 <h2 class="mb-4">Dashboard</h2>
+<div class="mb-4">
+    <a href="{{ url_for('admin.manage_treks') }}" class="btn btn-outline-primary me-2">Manage Treks</a>
+    <a href="{{ url_for('admin.manage_staff') }}" class="btn btn-outline-primary me-2">Manage Staff</a>
+    <a href="{{ url_for('admin.manage_users') }}" class="btn btn-outline-primary me-2">Manage Users</a>
+    <a href="{{ url_for('admin.search') }}" class="btn btn-outline-secondary">Search</a>
 
+</div>
+</div>
 <div class="row text-center mb-5">
     <div class="col-md-3 mb-3">
         <div class="card shadow-sm p-3">
@@ -33,6 +40,9 @@
 </div>
 
 <h4 class="mb-3">Recent Bookings</h4>
+<div class="text-end mt-2">
+    <a href="{{ url_for('admin.all_bookings') }}">View All Bookings →</a>
+</div>
 <table class="table table-hover bg-white shadow-sm">
     <thead>
         <tr>

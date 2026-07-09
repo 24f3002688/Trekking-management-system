@@ -1,0 +1,50 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block admin_content %}
+<h2 class="mb-4">Search</h2>
+
+<form method="GET" action="{{ url_for('admin.search') }}" class="mb-4">
+    <div class="input-group">
+        <input type="text" class="form-control" name="q" placeholder="Search by name or ID..." value="{{ query_str }}">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+
+{% if query_str %}
+<h5>Treks</h5>
+<table class="table table-sm bg-white shadow-sm mb-4">
+    <tbody>
+        {% for t in treks %}
+        <tr><td>#{{ t.id }} — {{ t.name }} ({{ t.location }})</td>
+        <td class="text-end"><a href="{{ url_for('admin.edit_trek', trek_id=t.id) }}">View</a></td></tr>
+        {% else %}
+        <tr><td class="text-muted">No matching treks.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5>Staff</h5>
+<table class="table table-sm bg-white shadow-sm mb-4">
+    <tbody>
+        {% for s in staff %}
+        <tr><td>#{{ s.id }} — {{ s.name }} ({{ s.email }}) — {{ s.status }}</td></tr>
+        {% else %}
+        <tr><td class="text-muted">No matching staff.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5>Users</h5>
+<table class="table table-sm bg-white shadow-sm mb-4">
+    <tbody>
+        {% for u in users %}
+        <tr><td>#{{ u.id }} — {{ u.name }} ({{ u.email }}) — {{ u.status }}</td></tr>
+        {% else %}
+        <tr><td class="text-muted">No matching users.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

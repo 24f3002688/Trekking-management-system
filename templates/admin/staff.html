@@ -1,0 +1,96 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Manage Staff{% endblock %}
+
+{% block admin_content %}
+<h2 class="mb-4">Staff Requests</h2>
+
+<ul class="nav nav-tabs mb-4" id="staffTabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#pending">Pending ({{ pending_staff|length }})</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#approved">Approved ({{ approved_staff|length }})</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#blacklisted">Blacklisted ({{ blacklisted_staff|length }})</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="pending">
+        <table class="table table-hover bg-white shadow-sm">
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Contact</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for staff in pending_staff %}
+                <tr>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>{{ staff.contact or '-' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=staff.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('admin.reject_staff', staff_id=staff.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Reject this request?')">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted">No pending requests.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="approved">
+        <table class="table table-hover bg-white shadow-sm">
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Contact</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for staff in approved_staff %}
+                <tr>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>{{ staff.contact or '-' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin.blacklist_staff', staff_id=staff.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Blacklist this staff member?')">Blacklist</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted">No approved staff.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="blacklisted">
+        <table class="table table-hover bg-white shadow-sm">
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Contact</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for staff in blacklisted_staff %}
+                <tr>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>{{ staff.contact or '-' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin.reinstate_staff', staff_id=staff.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-success">Reinstate</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted">No blacklisted staff.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
