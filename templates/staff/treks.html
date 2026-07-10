@@ -1,0 +1,29 @@
+{% extends "staff/layout.html" %}
+
+{% block title %}My Treks{% endblock %}
+
+{% block staff_content %}
+<h2 class="mb-4">My Assigned Treks</h2>
+<table class="table table-hover bg-white shadow-sm">
+    <thead>
+        <tr><th>Trek Name</th><th>Location</th><th>Slots</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for trek in assigned_treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.available_slots }} / {{ trek.total_slots }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if trek.status == 'Open' else 'secondary' if trek.status == 'Closed' else 'dark' if trek.status == 'Completed' else 'warning' }}">
+                    {{ trek.status }}
+                </span>
+            </td>
+            <td><a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}" class="btn btn-sm btn-outline-primary">Manage</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No treks assigned yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

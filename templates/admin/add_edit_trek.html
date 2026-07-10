@@ -30,15 +30,18 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Duration (days)</label>
-                        <input type="number" class="form-control" name="duration" min="1" value="{{ trek.duration if trek else '' }}" required>
-                    </div>
+
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Total Slots</label>
                         <input type="number" class="form-control" name="total_slots" min="1" value="{{ trek.total_slots if trek else '' }}" required>
                     </div>
                 </div>
+                {% if trek %}
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Duration</label>
+                    <input type="text" class="form-control" value="{{ trek.duration }} days" disabled>
+                </div>
+                {% endif %}
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -50,6 +53,7 @@
                             {% endfor %}
                         </select>
                     </div>
+                    {% if trek %}
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Status</label>
                         <select class="form-select" name="status">
@@ -58,6 +62,7 @@
                             {% endfor %}
                         </select>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="row">

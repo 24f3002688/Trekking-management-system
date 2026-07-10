@@ -1,0 +1,66 @@
+{% extends "staff/layout.html" %}
+
+{% block title %}Manage Trek{% endblock %}
+
+{% block staff_content %}
+<h2 class="mb-1">{{ trek.name }}</h2>
+<p class="text-muted mb-4">{{ trek.location }}</p>
+
+<div class="row">
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-sm p-4">
+            <h5 class="mb-3">Trek Info</h5>
+            <p><strong>Duration:</strong> {{ trek.duration }} days</p>
+            <p><strong>Start:</strong> {{ trek.start_date.strftime('%d %b %Y') }}</p>
+            <p><strong>End:</strong> {{ trek.end_date.strftime('%d %b %Y') }}</p>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="update">
+                <div class="mb-3">
+                    <label class="form-label">Available Slots</label>
+                    <input type="number" class="form-control" name="available_slots" value="{{ trek.available_slots }}" min="0" max="{{ trek.total_slots }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="status">
+                        {% for s in ['Open', 'Closed'] %}
+                        <option value="{{ s }}" {{ 'selected' if trek.status == s else '' }}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            </form>
+
+            <div class="d-flex gap-2 mt-3">
+                <form method="POST" class="flex-fill">
+                    <input type="hidden" name="action" value="mark_started">
+                    <button type="submit" class="btn btn-outline-success w-100">Mark as Started</button>
+                </form>
+                <form method="POST" class="flex-fill">
+                    <input type="hidden" name="action" value="mark_completed">
+                    <button type="submit" class="btn btn-outline-dark w-100" onclick="return confirm('Mark this trek as completed?')">Mark as Completed</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h5 class="mb-3">Participants ({{ participants|length }})</h5>
+        <table class="table table-hover bg-white shadow-sm">
+            <thead><tr><th>Name</th><th>Email</th><th>Booking Date</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for booking in participants %}
+                <tr>
+                    <td>{{ booking.user.name }}</td>
+                    <td>{{ booking.user.email }}</td>
+                    <td>{{ booking.booking_date.strftime('%d %b %Y') }}</td>
+                    <td><span class="badge bg-{{ 'success' if booking.status == 'Booked' else 'dark' }}">{{ booking.status }}</span></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted">No participants yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

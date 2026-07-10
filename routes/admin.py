@@ -62,24 +62,29 @@ def add_trek():
         name = request.form.get('name')
         location = request.form.get('location')
         difficulty = request.form.get('difficulty')
-        duration = request.form.get('duration')
         total_slots = request.form.get('total_slots')
         assigned_staff_id = request.form.get('assigned_staff_id') or None
-        start_date = request.form.get('start_date')
-        end_date = request.form.get('end_date')
+        start_date = datetime.strptime(request.form.get('start_date'), '%Y-%m-%d').date()
+        end_date = datetime.strptime(request.form.get('end_date'), '%Y-%m-%d').date()
         description = request.form.get('description')
+
+        if end_date < start_date:
+            flash('End date cannot be before start date.', 'danger')
+            return redirect(url_for('admin.add_trek'))
+
+        duration = (end_date - start_date).days + 1  # inclusive of both start and end day
 
         new_trek = Trek(
             name=name,
             location=location,
             difficulty=difficulty,
-            duration=int(duration),
+            duration=duration,
             total_slots=int(total_slots),
             available_slots=int(total_slots),
             assigned_staff_id=int(assigned_staff_id) if assigned_staff_id else None,
             status='Pending',
-            start_date=datetime.strptime(start_date, '%Y-%m-%d').date(),
-            end_date=datetime.strptime(end_date, '%Y-%m-%d').date(),
+            start_date=start_date,
+            end_date=end_date,
             description=description
         )
         db.session.add(new_trek)
@@ -102,8 +107,18 @@ def edit_trek(trek_id):
         trek.name = request.form.get('name')
         trek.location = request.form.get('location')
         trek.difficulty = request.form.get('difficulty')
-        trek.duration = int(request.form.get('duration'))
 
+        start_date = datetime.strptime(request.form.get('start_date'), '%Y-%m-%d').date()
+        end_date = datetime.strptime(request.form.get('end_date'), '%Y-%m-%d').date()
+
+        if end_date < start_date:
+            flash('End date cannot be before start date.', 'danger')
+            return redirect(url_for('admin.edit_trek', trek_id=trek.id))
+        
+        trek.start_date = start_date
+        trek.end_date = end_date
+        trek.duration = (end_date - start_date).days + 1
+    
         new_total = int(request.form.get('total_slots'))
         # Keep booked count consistent when admin changes total slots
         booked_count = trek.total_slots - trek.available_slots
@@ -113,8 +128,6 @@ def edit_trek(trek_id):
         assigned_staff_id = request.form.get('assigned_staff_id') or None
         trek.assigned_staff_id = int(assigned_staff_id) if assigned_staff_id else None
         trek.status = request.form.get('status')
-        trek.start_date = datetime.strptime(request.form.get('start_date'), '%Y-%m-%d').date()
-        trek.end_date = datetime.strptime(request.form.get('end_date'), '%Y-%m-%d').date()
         trek.description = request.form.get('description')
 
         db.session.commit()

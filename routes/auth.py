@@ -67,7 +67,7 @@ def login():
         if user.role == 'admin':
             return redirect(url_for('admin.dashboard'))  # placeholder until admin dashboard exists
         elif user.role == 'staff':
-            return redirect(url_for('home'))  # placeholder until staff dashboard exists
+            return redirect(url_for('staff.dashboard'))  # placeholder until staff dashboard exists
         else:
             return redirect(url_for('home'))  # placeholder until user dashboard exists
 

@@ -1,0 +1,64 @@
+{% extends "staff/layout.html" %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block staff_content %}
+<h2 class="mb-4">My Dashboard</h2>
+
+<div class="row text-center mb-5">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Assigned Treks</h6>
+            <h2>{{ assigned_treks|length }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Total Participants</h6>
+            <h2>{{ total_participants }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Open Treks</h6>
+            <h2>{{ open_treks }}</h2>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3">My Assigned Treks</h4>
+<table class="table table-hover bg-white shadow-sm">
+    <thead>
+        <tr>
+            <th>Trek Name</th>
+            <th>Location</th>
+            <th>Participants</th>
+            <th>Slots</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trek in assigned_treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.bookings|selectattr('status', 'equalto', 'Booked')|list|length }}</td>
+            <td>{{ trek.available_slots }} / {{ trek.total_slots }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if trek.status == 'Open' else 'secondary' if trek.status == 'Closed' else 'dark' if trek.status == 'Completed' else 'warning' }}">
+                    {{ trek.status }}
+                </span>
+            </td>
+            <td>
+                <a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}" class="btn btn-sm btn-outline-primary">Manage</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center text-muted">No treks assigned yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
