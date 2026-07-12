@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2 mb-4">
+        <div class="sidebar shadow-sm">
+            <a href="{{ url_for('user.dashboard') }}" class="sidebar-link {{ 'active' if active_page == 'dashboard' }}">🏕️ Dashboard</a>
+            <a href="{{ url_for('user.browse_treks') }}" class="sidebar-link {{ 'active' if active_page == 'browse' }}">🥾 Browse Treks</a>
+            <a href="{{ url_for('user.my_bookings') }}" class="sidebar-link {{ 'active' if active_page == 'bookings' }}">📖 My Bookings</a>
+            <a href="{{ url_for('user.history') }}" class="sidebar-link {{ 'active' if active_page == 'history' }}">🕓 History</a>
+            <a href="{{ url_for('user.profile') }}" class="sidebar-link {{ 'active' if active_page == 'profile' }}">👤 Profile</a>
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link text-danger">🚪 Logout</a>
+        </div>
+    </div>
+    <div class="col-md-10">
+        {% block user_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

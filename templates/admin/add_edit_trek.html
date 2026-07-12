@@ -81,6 +81,12 @@
                     <textarea class="form-control" name="description" rows="3">{{ trek.description if trek else '' }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Image URL</label>
+                    <input type="url" class="form-control" name="image_url" placeholder="https://images.unsplash.com/..." value="{{ trek.image_url if trek else '' }}">
+                    <div class="form-text">Paste a direct image link (e.g. from Unsplash). Leave blank to use a default photo.</div>
+                </div>
+
                 <a href="{{ url_for('admin.manage_treks') }}" class="btn btn-outline-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>

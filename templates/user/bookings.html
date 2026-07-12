@@ -1,0 +1,28 @@
+{% extends "user/layout.html" %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block user_content %}
+<h2 class="mb-4">My Bookings</h2>
+<table class="table table-hover bg-white shadow-sm">
+    <thead><tr><th>Trek</th><th>Booking Date</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.trek.name }}</td>
+            <td>{{ b.booking_date.strftime('%d %b %Y') }}</td>
+            <td><span class="badge bg-{{ 'success' if b.status == 'Booked' else 'danger' if b.status == 'Cancelled' else 'secondary' }}">{{ b.status }}</span></td>
+            <td>
+                {% if b.status == 'Booked' %}
+                <form method="POST" action="{{ url_for('user.cancel_booking', booking_id=b.id) }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Cancel this booking?')">Cancel</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">No bookings yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

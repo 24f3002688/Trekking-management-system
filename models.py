@@ -26,6 +26,7 @@ class Trek(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
     description = db.Column(db.Text)
+    image_url = db.Column(db.String(300))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     assigned_staff = db.relationship('User', backref='assigned_treks')

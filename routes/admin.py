@@ -85,7 +85,8 @@ def add_trek():
             status='Pending',
             start_date=start_date,
             end_date=end_date,
-            description=description
+            description=description,
+            image_url=request.form.get('image_url')
         )
         db.session.add(new_trek)
         db.session.commit()
@@ -129,6 +130,7 @@ def edit_trek(trek_id):
         trek.assigned_staff_id = int(assigned_staff_id) if assigned_staff_id else None
         trek.status = request.form.get('status')
         trek.description = request.form.get('description')
+        trek.image_url = request.form.get('image_url')
 
         db.session.commit()
         flash('Trek updated successfully!', 'success')

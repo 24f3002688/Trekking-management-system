@@ -1,0 +1,44 @@
+{% extends "user/layout.html" %}
+
+{% block title %}{{ trek.name }}{% endblock %}
+
+{% block user_content %}
+<a href="{{ url_for('user.browse_treks') }}" class="d-inline-block mb-3">&larr; Back to Treks</a>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <img src="{{ trek.image_url if trek.image_url else 'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80' }}"
+             alt="{{ trek.name }}" class="img-fluid rounded shadow-sm">
+    </div>
+
+    <div class="col-md-6">
+        <h2>{{ trek.name }}</h2>
+        <p class="text-muted mb-3">{{ trek.location }}</p>
+
+        <table class="table table-sm bg-white shadow-sm mb-4">
+            <tbody>
+                <tr><th>Difficulty</th><td>{{ trek.difficulty }}</td></tr>
+                <tr><th>Duration</th><td>{{ trek.duration }} days</td></tr>
+                <tr><th>Start Date</th><td>{{ trek.start_date.strftime('%d %b %Y') }}</td></tr>
+                <tr><th>End Date</th><td>{{ trek.end_date.strftime('%d %b %Y') }}</td></tr>
+                <tr><th>Available Slots</th><td>{{ trek.available_slots }} / {{ trek.total_slots }}</td></tr>
+            </tbody>
+        </table>
+
+        <h5>Description</h5>
+        <p class="mb-4">{{ trek.description or 'No description provided for this trek yet.' }}</p>
+
+        {% if already_booked %}
+        <button class="btn btn-secondary w-100" disabled>Already Booked</button>
+        {% elif trek.status != 'Open' %}
+        <button class="btn btn-secondary w-100" disabled>Not Open for Booking Yet</button>
+        {% elif trek.available_slots <= 0 %}
+        <button class="btn btn-secondary w-100" disabled>Fully Booked</button>
+        {% else %}
+        <form method="POST" action="{{ url_for('user.book_trek', trek_id=trek.id) }}">
+            <button type="submit" class="btn btn-primary w-100">Book Now</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

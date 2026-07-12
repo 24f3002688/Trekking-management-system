@@ -19,6 +19,8 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix='/admin')
     from routes.staff import staff_bp
     app.register_blueprint(staff_bp, url_prefix='/staff')
+    from routes.user import user_bp
+    app.register_blueprint(user_bp, url_prefix='/user')
 
     with app.app_context():
         db.create_all()

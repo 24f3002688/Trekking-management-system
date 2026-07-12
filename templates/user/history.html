@@ -1,0 +1,21 @@
+{% extends "user/layout.html" %}
+
+{% block title %}Trekking History{% endblock %}
+
+{% block user_content %}
+<h2 class="mb-4">Trekking History</h2>
+<table class="table table-hover bg-white shadow-sm">
+    <thead><tr><th>Trek</th><th>Location</th><th>Completed</th></tr></thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.trek.name }}</td>
+            <td>{{ b.trek.location }}</td>
+            <td>{{ b.trek.end_date.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3" class="text-center text-muted">No completed treks yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
