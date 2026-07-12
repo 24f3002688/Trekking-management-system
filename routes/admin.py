@@ -121,7 +121,7 @@ def edit_trek(trek_id):
         trek.duration = (end_date - start_date).days + 1
     
         new_total = int(request.form.get('total_slots'))
-        # Keep booked count consistent when admin changes total slots
+        # Kept booked count consistent when admin changes total slots
         booked_count = trek.total_slots - trek.available_slots
         trek.total_slots = new_total
         trek.available_slots = max(new_total - booked_count, 0)

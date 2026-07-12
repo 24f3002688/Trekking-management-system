@@ -8,7 +8,7 @@ body {
     background: linear-gradient(90deg, #1f3a2e, #2f4f3f) !important;
 }
 
-/* ---------- Hero banner ---------- */
+
 .hero {
     background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
         url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80');
@@ -20,7 +20,6 @@ body {
     border-radius: 12px;
 }
 
-/* ---------- Cards ---------- */
 .card {
     border: none;
     border-radius: 12px;
@@ -50,7 +49,7 @@ body {
     flex-direction: column;
     flex-grow: 1;
 }
-/* ---------- Buttons ---------- */
+
 .btn-primary {
     background-color: #2f4f3f;
     border-color: #2f4f3f;
@@ -79,7 +78,7 @@ body {
     border-radius: 8px;
 }
 
-/* ---------- Sidebar (Admin/Staff/User dashboards) ---------- */
+
 .sidebar {
     background-color: white;
     border-radius: 12px;
@@ -112,15 +111,14 @@ body {
     font-weight: 600;
 }
 
-/* ---------- Links ---------- */
+/*Links*/
 a {
     color: #2f4f3f;
 }
 a:hover {
     color: #1f3a2e;
 }
-/* ---------- Hamburger sidebar toggle (pure CSS) ---------- */
-/* ---------- Hamburger sidebar toggle (pure CSS, all screen sizes) ---------- */
+
 .sidebar-toggle-checkbox {
     display: none;
 }
